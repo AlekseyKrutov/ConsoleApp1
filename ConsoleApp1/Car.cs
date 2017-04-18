@@ -6,39 +6,66 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class Employee
+   public partial class Employee
     {
         private string empName;
-        private int empID;
+        private int empId;
         private float currPay;
+        private int empAge;
+        private readonly string SocialSecurityNumber;
+
+        public Employee() {}
+        public Employee(string name, int id, float pay) :this(name, 0, id, pay, "") { }
+        public Employee(string name, int age, int id, float pay, string ssn)
+        {
+            Name = name;
+            Age = age;
+            ID = id;
+            Pay = pay;
+            SocialSecurityNumber = ssn;
+        }
         
-        public Employee () {}
-        public Employee (string name, int id, float pay)
-        {
-            empName = name;
-            empID = id;
-            currPay = pay;
+
+        public string Name {
+            get { return empName; }
+            set
+            {
+                if (value.Length > 15)
+                    Console.WriteLine("Erroe! Name must be less than 16 characters");
+                else
+                    empName = value;
+            }
         }
-        public void GiveBonus(float amount)
+        public int ID
         {
-            currPay += amount;
+            get { return empId; }
+            set { empId = value; }
         }
-        public void DisplayStats()
+        public float Pay
         {
-            Console.WriteLine("Name: {0}", empName);
-            Console.WriteLine("ID: {0}", empID);
-            Console.WriteLine("Pay: {0}", currPay);
+            get { return currPay; }
+            set { currPay = value; }
         }
-        public string GetName()
+        public int Age
         {
-            return empName;
+            get { return empAge; }
+            set { empAge = value; }
         }
-        public void Setname(string name)
+        public virtual void GiveBonus(float amount)
         {
-            if (name.Length < 16)
-                Console.WriteLine("Error name < 16!");
-            else
-                empName = name;
+            Pay += amount;
+        }
+        public virtual void DisplayStats()
+        {
+            Console.WriteLine("Name: {0}", Name);
+            Console.WriteLine("ID: {0}", ID);
+            Console.WriteLine("Pay: {0}", Pay);
+            Console.WriteLine("Age: {0}", Age);
+        }
+        public override string ToString()
+        {
+            string newFormat = string.Format("Name: {0}\nID: {1}\nPay: {2}\nAge: {3}\n", Name, ID, Pay, Age);
+            return newFormat;
         }
     }
 }
